@@ -1,7 +1,7 @@
-What is the capital of Paris?
-France
+What is the capital of France?
+Paris
 
-What is 1 + 2? 
+What is 1 + 2?
 3
 
 How many days are there in a week?
