@@ -10,7 +10,9 @@ from time import gmtime, strftime
 import numpy as np
 import sys
 import subprocess
- 
+import anki_import.convertApkgToTxt as converter
+
+
 class App(ctk.CTk):
     def __init__(self, dim, size):
         super().__init__()
@@ -55,16 +57,16 @@ class App(ctk.CTk):
         self.placeholderWidget = ctk.CTkLabel(self.frame, text = "", image = self.cardsImage)
         self.placeholderWidget.place(relx = 0.5, rely = 0.67, anchor = "c")
         
-        self.folderImage = ctk.CTkImage(Image.open("assets/open_folder.png"), size = (16, 16))
-        self.openFolderButton = ctk.CTkButton(self.frame, text = "", image = self.folderImage, 
-                                              command = lambda: self.flashcards.openFolder("/flash_sets"),
-                                              width = 16)
-        self.openFolderButton.place(relx = 0.825, rely = 0.235, anchor = "c")
+        # Buttons to open the flash cards folder, settings and information
+        self.openFolderButton = ctk.CTkButton(self.frame, text = "📁", command = lambda: 
+                                              self.flashcards.openFolder("/flash_sets"), width = 16)
+        self.openFolderButton.place(in_ = self.flashOptions, relx = 1.0, x = 7, rely = 0)
         
-        self.settingsImage = ctk.CTkImage(Image.open("assets/settings.png"), size = (16, 16))
-        self.openSettingsButton = ctk.CTkButton(self.frame, text = "", image = self.settingsImage,
-                                                command = self.openSettings, width = 16)
+        self.openSettingsButton = ctk.CTkButton(self.frame, text = "⚙️", command = self.openSettings, width = 16)
         self.openSettingsButton.place(relx = 0.937, rely = 0.05, anchor = "c")
+        
+        self.openInfoButton = ctk.CTkButton(self.frame, text = "ⓘ", command = self.showHelp, width = 16)
+        self.openInfoButton.place(relx = 0.056, rely = 0.05, anchor = "c")
 
     def createFileMenu(self):
         self.menuBar = tk.Menu()
@@ -80,13 +82,15 @@ class App(ctk.CTk):
         self.settings = Settings(self)
 
     def showHelp(self):
-        tk.messagebox.showinfo(title = "Help", 
-                               message =    "If you are unsure how to add a flash card, open the current "
-                                            "working directory you are running this program in, and make a "
-                                            "new file under the \"flash_sets\" folder. Name it whatever you "
-                                            "want and add .txt to the end. Then, restart the program and your "
-                                            "set will appear.")
+        tk.messagebox.showinfo(title = "Help", message = "Refer to "
+                               "https://github.com/tomasvana10/flash_cards/blob/main/README.md for help, or view "
+                               "the README directly from the program's main folder on your computer "
+                               "(flash_cards/)")
 
+    def restart(self):
+        self.destroy()
+        self.app = App((400, 450), 1.3)
+        self.app.mainloop()
 
 class FlashCardUtils:
     def __init__(self, master):
@@ -108,7 +112,7 @@ class FlashCardUtils:
             return
         
         # If the flash card set is valid, a toplevel is created
-        newFlashCardInstance = NewFlashCardInstance(self.master, self.master.flashOptions.get(), 
+        newFlashCard = NewFlashCard(self.master, self.master.flashOptions.get(), 
                                                     self.readFlashCards(self.master.flashOptions.get()))
         
     def readFlashCards(self, filename):
@@ -141,16 +145,17 @@ class FlashCardUtils:
         return self.intersection / self.union if self.union != 0 else 0
 
     def openFolder(self, subdir):
-        self.folderPath = os.getcwd() + subdir
+        self.folderPath = os.getcwd() + f"/{subdir}"
+        print(self.folderPath)
         if sys.platform == "win32":
             os.startfile(self.folderPath)
         elif sys.platform == "darwin":
             subprocess.call(["open", self.folderPath])
         elif sys.platform == "linux":
             os.system('xdg-open "%s"' % self.folderPath)
+            
 
-
-class NewFlashCardInstance(ctk.CTkToplevel):
+class NewFlashCard(ctk.CTkToplevel):
     def __init__(self, master, flashname, flashdata):
         super().__init__(master)
 
@@ -366,14 +371,74 @@ class Settings(ctk.CTkToplevel):
     def __init__(self, master):
         super().__init__(master)
         
-        self.geometry("300x300")
-        self.maxsize(300, 300)
-        self.minsize(300, 300)
+        self.geometry("300x400")
+        self.maxsize(300, 400)
+        self.minsize(300, 400)
         self.title("Settings")
         
         self.master = master
+    
+        # For main content
+        self.frame = ctk.CTkFrame(self)
+        self.frame.pack(expand = 1.0, fill = tk.BOTH)
+    
+        # Errors that are returned during the process of conversion
+        self.errors = {"doesntExistError": ": The file doesn't exist", 
+                       "incorrectExtensionError": ": The file is not a .apkg file", 
+                       "alreadyConvertedError": ": You have already converted this file",
+                       "identicalFoldersError": ": No new files are available to bulk convert"}
+    
+        self.createContent()
+    
+    def createContent(self):
+        # Title
+        self.titleLabel = ctk.CTkLabel(self.frame, text = "Settings", 
+                                       font = ctk.CTkFont(family = "Helvetica", size = 20, weight = "bold"))
+        self.titleLabel.place(relx = 0.5, rely = 0.13, anchor = "c")
         
+        # Anki import related content
+        self.importLabel = ctk.CTkLabel(self.frame, text = "Import from Anki", font = ctk.CTkFont(underline = 1))
+        self.importedFiles = ctk.CTkOptionMenu(self.frame, values = [file.replace(".apkg", "") 
+                                                                     for file in os.listdir("anki_import/imports")
+                                                                     if file.endswith(".apkg")])
+        self.importedFiles.set("Available .apkg files")
+        self.convertCurrent = ctk.CTkButton(self.frame, text = "Convert", width = 7, command = lambda: self.convertToTxt(1))
+        self.convertAll = ctk.CTkButton(self.frame, text = "Convert all", width = 11, command = lambda: self.convertToTxt("all"))
+        self.openFolderButton = ctk.CTkButton(self.frame, text = "📁", command = lambda: 
+                                              self.master.flashcards.openFolder("anki_import/imports"), width = 16)
+        self.importLabel.place(relx = 0.5, rely = 0.25, anchor = "c")
+        self.importedFiles.place(relx = 0.4, rely = 0.35, anchor = "c")
+        self.convertCurrent.place(relx = 0.33, rely = 0.46, anchor = "c")
+        self.convertAll.place(relx = 0.65, rely = 0.46, anchor = "c")
+        self.openFolderButton.place(in_ = self.importedFiles, relx = 1.0, x = 7, rely = 0)
         
+        # Close window button
+        self.closeButton = ctk.CTkButton(self.frame, text = "❌", command = self.destroy, width = 16)
+        self.closeButton.place(relx = 0.915, rely = 0.055, anchor = "c")
+    
+    def convertToTxt(self, amount):
+        if self.importedFiles.get() == "Available .apkg files":
+            if amount != "all":
+                tk.messagebox.showerror(title = "Error", message = "Select a file first")
+                return
+        
+        if amount == 1:
+            if (errName := converter.makeApkgInstance(self.importedFiles.get())) in self.errors:
+                tk.messagebox.showerror(title = "Error", message = f"{errName}{self.errors[errName]}")
+            else:
+                tk.messagebox.showinfo(title = "Conversion complete", message = f"{self.importedFiles.get()} " 
+                                           "was converted and can now be viewed by the program")
+                self.master.restart()
+            return
+        
+        elif amount == "all":
+            if (errName := converter.bulkConversion()) in self.errors:
+                tk.messagebox.showerror(title = "Error", message = f"{errName}{self.errors[errName]}")
+            else:
+                tk.messagebox.showinfo(title = "Conversion complete ", message = "All new files were converted")
+                self.master.restart()
+            return
+            
 
 if __name__ == "__main__":
     # Start program
