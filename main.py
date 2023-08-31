@@ -11,6 +11,7 @@ import numpy as np
 import sys
 import subprocess
 import anki_import.convertApkgToTxt as converter
+import time
 
 
 class App(ctk.CTk):
@@ -29,7 +30,7 @@ class App(ctk.CTk):
         self.frame.pack(expand = 1.0, fill = tk.BOTH)
 
         # Reference to class methods of FlashCardUtils
-        self.flashcards = FlashCardUtils(self)
+        self.flashcardutils = FlashCardUtils(self)
 
         self.createContent()
         self.createFileMenu()
@@ -48,7 +49,7 @@ class App(ctk.CTk):
 
         # Button to open the flash card set
         self.openSetButton = ctk.CTkButton(self.frame, text = "Open the selected set", 
-                                           command = self.flashcards.handleSetOpen)
+                                           command = self.flashcardutils.handleSetOpen)
         self.bind("<Return>", lambda event = None: self.openSetButton.invoke())
         self.openSetButton.place(relx = 0.5, rely = 0.335, anchor = "c")
 
@@ -59,7 +60,7 @@ class App(ctk.CTk):
         
         # Buttons to open the flash cards folder, settings and information
         self.openFolderButton = ctk.CTkButton(self.frame, text = "📁", command = lambda: 
-                                              self.flashcards.openFolder("/flash_sets"), width = 16)
+                                              self.flashcardutils.openFolder("/flash_sets"), width = 16)
         self.openFolderButton.place(in_ = self.flashOptions, relx = 1.0, x = 7, rely = 0)
         
         self.openSettingsButton = ctk.CTkButton(self.frame, text = "⚙️", command = self.openSettings, width = 16)
@@ -92,6 +93,7 @@ class App(ctk.CTk):
         self.app = App((400, 450), 1.3)
         self.app.mainloop()
 
+
 class FlashCardUtils:
     def __init__(self, master):
         self.master = master
@@ -112,7 +114,7 @@ class FlashCardUtils:
             return
         
         # If the flash card set is valid, a toplevel is created
-        newFlashCard = NewFlashCard(self.master, self.master.flashOptions.get(), 
+        self.newflashcard = NewFlashCard(self.master, self.master.flashOptions.get(), 
                                                     self.readFlashCards(self.master.flashOptions.get()))
         
     def readFlashCards(self, filename):
@@ -153,6 +155,22 @@ class FlashCardUtils:
             subprocess.call(["open", self.folderPath])
         elif sys.platform == "linux":
             os.system('xdg-open "%s"' % self.folderPath)
+    
+    def updateScoresJSON(self):
+        if os.path.getsize("scores.json") > 0:
+            # Extending with more data
+            with open("scores.json", "r") as f:
+                self.currentData = json.load(f)
+
+            self.currentData.extend(self.newflashcard.sessionScores)
+
+            with open("scores.json", "w") as f:
+                json.dump(self.currentData, f, indent = 2)
+
+        else:
+            # First-time dumping of data
+            with open("scores.json", "w") as f:
+                json.dump(self.newflashcard.sessionScores, f, indent = 2)
             
 
 class NewFlashCard(ctk.CTkToplevel):
@@ -277,17 +295,19 @@ class NewFlashCard(ctk.CTkToplevel):
         # First time loading questions
         if len(self.flashDataCopy) == len(self.flashData):
             self.answerEntry.focus()
-                
+        
         # Answered all questions
         if len(self.flashDataCopy) == 0:
             self.hideContent(cardui = True)
-            self.updateScoresJSON()
+            self.master.flashcardutils.updateScoresJSON()
             self.finishedButton.place(relx = 0.5, rely = 0.6, anchor = "c")
             self.finishedLabel.place(relx = 0.5, rely = 0.35, anchor = "c")
             self.finalScoreLabel.place(relx = 0.5, rely = 0.45, anchor = "c")
             self.finalScoreLabel.configure(text = f"Average score is: {int(np.mean([record['score'] for record in self.sessionScores])) * 100}%")
-            return
-
+            return  
+            
+        self.startTimer()   
+            
         # Remove possible widgets from the revealed answer
         self.scoreLabel.place_forget()
         self.continueButton.place_forget() 
@@ -312,12 +332,14 @@ class NewFlashCard(ctk.CTkToplevel):
         del self.flashDataCopy[self.randomQuestionIndex]
 
     def revealAnswer(self):
+        self.stopTimer()
+        
         # Insert the answer
         self.insertText(self.randomQuestion["A"], "a")
         
         if self.answerOptions.get() == "Write answers":
             # Jaccard's index
-            self.score = self.master.flashcards.compareSets(self.randomQuestion["A"], self.answerEntry.get())
+            self.score = self.master.flashcardutils.compareSets(self.randomQuestion["A"], self.answerEntry.get())
             # Log score
             self.appendScore(written = True)
 
@@ -339,32 +361,25 @@ class NewFlashCard(ctk.CTkToplevel):
         if written:
             self.sessionScores.append({"set": self.flashName, "question": self.randomQuestion['Q'], 
                             "answer": self.randomQuestion['A'], "userAnswer": self.answerEntry.get(),
-                            "score": self.score, "timestamp": str(strftime("%Y-%m-%d %H:%M:%S", gmtime()))})
+                            "score": self.score, "timestamp": str(strftime("%Y-%m-%d %H:%M:%S", gmtime())),
+                            "timeSpentForQInSeconds": self.elapsedTimeForQ})
         else:
             self.sessionScores.append({"set": self.flashName, "question": self.randomQuestion['Q'], 
                                        "answer": self.randomQuestion['A'], "userAnswer": self.answerEntry.get(),
-                                       "score": "N/A", "timestamp": str(strftime("%Y-%m-%d %H:%M:%S", gmtime()))})
+                                       "score": "N/A", "timestamp": str(strftime("%Y-%m-%d %H:%M:%S", gmtime())),
+                                       "timeSpentForQInSeconds": self.elapsedTimeForQ})
+
+    def startTimer(self):
+        self.startTime = time.time()
+
+    def stopTimer(self):
+        self.endTime = time.time()
+        self.elapsedTimeForQ = round(self.endTime - self.startTime, 2)
 
     def finish(self):
         # After user finishes the set of flash cards
         self.hideContent(cardui = True)
         self.createContent()
-
-    def updateScoresJSON(self):
-            if os.path.getsize("scores.json") > 0:
-                # Extending with more data
-                with open("scores.json", "r") as f:
-                    self.currentData = json.load(f)
-
-                self.currentData.extend(self.sessionScores)
-
-                with open("scores.json", "w") as f:
-                    json.dump(self.currentData, f, indent = 2)
-
-            else:
-                # First-time dumping of data
-                with open("scores.json", "w") as f:
-                    json.dump(self.sessionScores, f, indent = 2)
 
 
 class Settings(ctk.CTkToplevel):
@@ -405,7 +420,7 @@ class Settings(ctk.CTkToplevel):
         self.convertCurrent = ctk.CTkButton(self.frame, text = "Convert", width = 7, command = lambda: self.convertToTxt(1))
         self.convertAll = ctk.CTkButton(self.frame, text = "Convert all", width = 11, command = lambda: self.convertToTxt("all"))
         self.openFolderButton = ctk.CTkButton(self.frame, text = "📁", command = lambda: 
-                                              self.master.flashcards.openFolder("anki_import/imports"), width = 16)
+                                              self.master.flashcardutils.openFolder("anki_import/imports"), width = 16)
         self.importLabel.place(relx = 0.5, rely = 0.25, anchor = "c")
         self.importedFiles.place(relx = 0.4, rely = 0.35, anchor = "c")
         self.convertCurrent.place(relx = 0.33, rely = 0.46, anchor = "c")
