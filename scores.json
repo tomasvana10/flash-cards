@@ -1,0 +1,335 @@
+[
+  {
+    "set": "example_set.txt",
+    "question": "What is 1 + 2?",
+    "answer": "3",
+    "userAnswer": "3",
+    "score": 1.0,
+    "timestamp": "2023-09-01 03:29:54",
+    "timeSpentForQInSeconds": 0.92
+  },
+  {
+    "set": "example_set.txt",
+    "question": "What is the capital of France?",
+    "answer": "Paris",
+    "userAnswer": "Paris",
+    "score": 1.0,
+    "timestamp": "2023-09-01 03:29:57",
+    "timeSpentForQInSeconds": 1.94
+  },
+  {
+    "set": "example_set.txt",
+    "question": "How many days are there in a week?",
+    "answer": "7",
+    "userAnswer": "7",
+    "score": 1.0,
+    "timestamp": "2023-09-01 03:29:59",
+    "timeSpentForQInSeconds": 1.53
+  },
+  {
+    "set": "example_set.txt",
+    "question": "How many days are there in a week?",
+    "answer": "7",
+    "userAnswer": "sdjfhsdkfjhskdjfhsdkjfhskdfjhsdkjfhsdkjfhsdkjfhskdjfhskdjfhdksfjhsdkfjsdkjhsdfkjhdfsfssdkjhhhhhhhhhhf",
+    "score": 0.0,
+    "timestamp": "2023-09-01 03:30:06",
+    "timeSpentForQInSeconds": 5.33
+  },
+  {
+    "set": "example_set.txt",
+    "question": "What is the capital of France?",
+    "answer": "Paris",
+    "userAnswer": "pariss",
+    "score": 1.0,
+    "timestamp": "2023-09-01 03:30:10",
+    "timeSpentForQInSeconds": 2.73
+  },
+  {
+    "set": "example_set.txt",
+    "question": "What is 1 + 2?",
+    "answer": "3",
+    "userAnswer": "3",
+    "score": 1.0,
+    "timestamp": "2023-09-01 03:30:11",
+    "timeSpentForQInSeconds": 0.99
+  },
+  {
+    "set": "anki-BTS-PRE-9.1.txt",
+    "question": "influences in the business environmentfinal dot point",
+    "answer": "stakeholders",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-06 09:45:50",
+    "timeSpentForQInSeconds": 19.52
+  },
+  {
+    "set": "anki-BTS-PRE-9.1.txt",
+    "question": "role of a business:the nature of a business",
+    "answer": "- producing goods and services- profit, employment, incomes, choice, innovation, entrepreneurship and risk, wealth and quality of life",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-06 09:45:53",
+    "timeSpentForQInSeconds": 1.84
+  },
+  {
+    "set": "anki-BTS-PRE-9.1.txt",
+    "question": "types of businessesclassification of business",
+    "answer": "- size - SMEs, large- local, national, global- industry - primary, secondary, tertiary, quaternary, quinary- legal structure - sole trader, partnership, public company, private company",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-06 09:45:54",
+    "timeSpentForQInSeconds": 0.37
+  },
+  {
+    "set": "anki-BTS-PRE-9.1.txt",
+    "question": "business growth and declinefactors that can ...",
+    "answer": "... contribute to business decline",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-06 09:45:55",
+    "timeSpentForQInSeconds": 0.15
+  },
+  {
+    "set": "anki-BTS-PRE-9.1.txt",
+    "question": "business growth and declineresponding to challenges at ...",
+    "answer": "... each stage of the business life cycle",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-06 09:45:55",
+    "timeSpentForQInSeconds": 0.16
+  },
+  {
+    "set": "anki-BTS-PRE-9.1.txt",
+    "question": "business growth and declinestages of the business life cycle",
+    "answer": "- establishment- growth- maturity- post-maturity",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-06 09:45:55",
+    "timeSpentForQInSeconds": 0.19
+  },
+  {
+    "set": "anki-BTS-PRE-9.1.txt",
+    "question": "influences in the business environmentexternal influences",
+    "answer": "external influences - economic, financial, geographic, social, legal, political, technological, institutional, competitive situation, markets",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-06 09:45:56",
+    "timeSpentForQInSeconds": 0.34
+  },
+  {
+    "set": "anki-BTS-PRE-9.1.txt",
+    "question": "influences in the business environmentinternal influences",
+    "answer": "internal influences - products, location, resources, management and business culture",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-06 09:45:57",
+    "timeSpentForQInSeconds": 0.34
+  },
+  {
+    "set": "anki-BTS-PRE-9.1.txt",
+    "question": "business growth and declinevoluntary and involuntary ...",
+    "answer": "cessation - liquidation",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-06 09:45:57",
+    "timeSpentForQInSeconds": 0.36
+  },
+  {
+    "set": "anki-BTS-PRE-9.1.txt",
+    "question": "types of businessesfactors influencing choice of legal structure",
+    "answer": "- size, ownership, finance",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-06 09:45:59",
+    "timeSpentForQInSeconds": 0.86
+  },
+  {
+    "set": "example_set.txt",
+    "question": "How many days are there in a week?",
+    "answer": "7",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-06 09:46:12",
+    "timeSpentForQInSeconds": 0.7
+  },
+  {
+    "set": "example_set.txt",
+    "question": "What is the capital of France?",
+    "answer": "Paris",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-06 09:46:13",
+    "timeSpentForQInSeconds": 0.17
+  },
+  {
+    "set": "example_set.txt",
+    "question": "What is 1 + 2?",
+    "answer": "3",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-06 09:46:13",
+    "timeSpentForQInSeconds": 0.18
+  },
+  {
+    "set": "example_set.txt",
+    "question": "How many days are there in a week?",
+    "answer": "7",
+    "userAnswer": "",
+    "score": "N/A",
+    "timestamp": "2023-09-06 09:46:16",
+    "timeSpentForQInSeconds": 0.41
+  },
+  {
+    "set": "example_set.txt",
+    "question": "What is 1 + 2?",
+    "answer": "3",
+    "userAnswer": "",
+    "score": "N/A",
+    "timestamp": "2023-09-06 09:46:16",
+    "timeSpentForQInSeconds": 0.12
+  },
+  {
+    "set": "example_set.txt",
+    "question": "What is the capital of France?",
+    "answer": "Paris",
+    "userAnswer": "",
+    "score": "N/A",
+    "timestamp": "2023-09-06 09:46:16",
+    "timeSpentForQInSeconds": 0.08
+  },
+  {
+    "set": "example_set.txt",
+    "question": "What is 1 + 2?",
+    "answer": "3",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-06 09:46:17",
+    "timeSpentForQInSeconds": 0.07
+  },
+  {
+    "set": "example_set.txt",
+    "question": "What is the capital of France?",
+    "answer": "Paris",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-06 09:46:18",
+    "timeSpentForQInSeconds": 0.12
+  },
+  {
+    "set": "example_set.txt",
+    "question": "How many days are there in a week?",
+    "answer": "7",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-06 09:46:18",
+    "timeSpentForQInSeconds": 0.12
+  },
+  {
+    "set": "example_set.txt",
+    "question": "What is the capital of France?",
+    "answer": "Paris",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-06 09:46:18",
+    "timeSpentForQInSeconds": 0.09
+  },
+  {
+    "set": "example_set.txt",
+    "question": "How many days are there in a week?",
+    "answer": "7",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-06 09:46:18",
+    "timeSpentForQInSeconds": 0.1
+  },
+  {
+    "set": "example_set.txt",
+    "question": "What is 1 + 2?",
+    "answer": "3",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-06 09:46:19",
+    "timeSpentForQInSeconds": 0.41
+  },
+  {
+    "set": "example_set.txt",
+    "question": "What is the capital of France?",
+    "answer": "Paris",
+    "userAnswer": "",
+    "score": "N/A",
+    "timestamp": "2023-09-06 09:46:23",
+    "timeSpentForQInSeconds": 0.7
+  },
+  {
+    "set": "example_set.txt",
+    "question": "How many days are there in a week?",
+    "answer": "7",
+    "userAnswer": "",
+    "score": "N/A",
+    "timestamp": "2023-09-06 09:46:24",
+    "timeSpentForQInSeconds": 0.23
+  },
+  {
+    "set": "example_set.txt",
+    "question": "What is 1 + 2?",
+    "answer": "3",
+    "userAnswer": "",
+    "score": "N/A",
+    "timestamp": "2023-09-06 09:46:24",
+    "timeSpentForQInSeconds": 0.23
+  },
+  {
+    "set": "example_set.txt",
+    "question": "What is 1 + 2?",
+    "answer": "3",
+    "userAnswer": "",
+    "score": "N/A",
+    "timestamp": "2023-09-06 09:46:31",
+    "timeSpentForQInSeconds": 0.35
+  },
+  {
+    "set": "example_set.txt",
+    "question": "How many days are there in a week?",
+    "answer": "7",
+    "userAnswer": "",
+    "score": "N/A",
+    "timestamp": "2023-09-06 09:46:31",
+    "timeSpentForQInSeconds": 0.11
+  },
+  {
+    "set": "example_set.txt",
+    "question": "What is the capital of France?",
+    "answer": "Paris",
+    "userAnswer": "",
+    "score": "N/A",
+    "timestamp": "2023-09-06 09:46:31",
+    "timeSpentForQInSeconds": 0.06
+  },
+  {
+    "set": "example_set.txt",
+    "question": "How many days are there in a week?",
+    "answer": "7",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-12 01:39:46",
+    "timeSpentForQInSeconds": 0.26
+  },
+  {
+    "set": "example_set.txt",
+    "question": "What is 1 + 2?",
+    "answer": "3",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-12 01:39:47",
+    "timeSpentForQInSeconds": 0.2
+  },
+  {
+    "set": "example_set.txt",
+    "question": "What is the capital of France?",
+    "answer": "Paris",
+    "userAnswer": "",
+    "score": 0.0,
+    "timestamp": "2023-09-12 01:39:47",
+    "timeSpentForQInSeconds": 0.19
+  }
+]

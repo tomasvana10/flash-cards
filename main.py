@@ -7,7 +7,7 @@ import os
 import random
 import json
 from time import gmtime, strftime
-import numpy as np
+import numpy as np     
 import sys
 import subprocess
 import anki_import.convertApkgToTxt as converter
@@ -60,7 +60,7 @@ class App(ctk.CTk):
         
         # Buttons to open the flash cards folder, settings and information
         self.openFolderButton = ctk.CTkButton(self.frame, text = "📁", command = lambda: 
-                                              self.flashcardutils.openFolder("/flash_sets"), width = 16)
+                                              self.flashcardutils.openFolder("flash_sets"), width = 16)
         self.openFolderButton.place(in_ = self.flashOptions, relx = 1.0, x = 7, rely = 0)
         
         self.openSettingsButton = ctk.CTkButton(self.frame, text = "⚙️", command = self.openSettings, width = 16)

@@ -4,3 +4,10 @@ tempCodeRunnerFile.python
 
 # macos stuff
 **/.DS_Store
+
+# python
+__pyache__/
+
+# venv
+Pipfile
+Pipfile.lock
